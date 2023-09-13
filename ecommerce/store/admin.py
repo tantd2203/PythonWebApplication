@@ -4,6 +4,13 @@ from django.contrib import admin
 
 from .models import Category, Product
 
-admin.site.register(Category)
+@admin.register(Category)
+class categoryAdmin(admin.ModelAdmin):
+    
+    prepopulated_fields = {'slug': ('name',)}
 
-admin.site.register(Product)
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin) :
+        
+     prepopulated_fields = {'slug': ('title',)}
