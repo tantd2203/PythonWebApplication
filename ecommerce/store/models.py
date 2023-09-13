@@ -28,7 +28,7 @@ class Product(models.Model):
 
     price =  models.DecimalField(max_digits=4, decimal_places=2)
 
-    #iamge = models.ImageField(upload_to='images/') 
+    iamge = models.ImageField(upload_to='images/') 
      
 class Meta:
         verbose_name_plural ='products'
