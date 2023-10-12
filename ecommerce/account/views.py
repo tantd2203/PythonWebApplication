@@ -1,10 +1,9 @@
 from django.shortcuts import render
 
-from django.http import HttpResponse
 
 
-def register (requesr) : 
+def register (request) : 
      
-     return HttpResponse('Acciyt register')
+     return  render(request,'account/registration/register.html')
 
 # Create your views here.
