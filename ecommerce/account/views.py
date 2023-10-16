@@ -6,16 +6,18 @@ from .forms import CreateUseForm
 
 
 def register(request): 
+
      form = CreateUseForm()
 
      if request.method == 'POST':
+          
           form = CreateUseForm(request.POST)
 
           if form.is_valid():
 
                form.save()
 
-               return redirect('')
+               return redirect('store')
 
      context = {'form': form}
  
