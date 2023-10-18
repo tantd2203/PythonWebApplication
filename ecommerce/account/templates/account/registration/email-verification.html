@@ -1,4 +1,4 @@
-{% comment %} {% autoescape off %}
+ {% autoescape off %}
 
 Hi,
 
@@ -10,4 +10,4 @@ Please be so kind as to verify your email by clicking the link below:
 http://{{domain}}{% url 'email-verification' uidb64=uid token=token %}
 
 
-{% endautoescape %} {% endcomment %}
+{% endautoescape %}
