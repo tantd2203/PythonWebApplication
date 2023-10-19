@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect
 
-from django.contrib.auth.models import User
+from .forms import CreateUserForm
 
-from .forms import CreateUseForm
 
 from django.contrib.sites.shortcuts import get_current_site
+
+from django.contrib.auth.models import User
+
+
+
 
 from . token import user_tokenizer_generate
 
@@ -17,47 +21,38 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 
 
-def register(request): 
 
-     form = CreateUseForm()
+def register(request):
+    form = CreateUserForm()  # Use CreateUserForm instead of CreateUseForm
 
-     if request.method == 'POST':
-          
-          form = CreateUseForm(request.POST)
-
-          if form.is_valid():
-              
-              user = form.save()
-
-              user.is_active = False
-
-              user.save()
-
-            
-              # Email verification setup (template)
-
-              current_site = get_current_site(request)
-
-              subject = 'Account verification email'
-
-              message = render_to_string('account/registration/email-verification.html', {
-            
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.is_active = False
+            user.save()
+            # Email verification setup (template)
+            current_site = get_current_site(request)
+            subject = 'Account verification email'
+            message = render_to_string('account/registration/email-verification.html', {
                 'user': user,
+
                 'domain': current_site.domain,
+
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                
                 'token': user_tokenizer_generate.make_token(user),
-            
             })
 
-              user.email_user(subject=subject, message=message)
+            #  Unable to connect 
+            user.email_user(message=message,subject= subject)
+
+            return redirect('email-verification-sent')
+
+    context = {'form': form}
+    return render(request, 'account/registration/register.html', context=context)
 
 
-              return redirect('email-verification-sent')
-
-
-     context = {'form': form}
- 
-     return  render(request,'account/registration/register.html', context= context)
 
 # # Create your views here.
 
@@ -88,7 +83,8 @@ def email_verification(request, uidb64, token):
     else:
 
         return redirect('email-verification-failed')
-        
+
+
 
 def email_verification_sent(request):
 
@@ -104,3 +100,4 @@ def email_verification_success(request):
 def email_verification_failed(request):
 
     return render(request, 'account/registration/email-verification-failed.html')
+
