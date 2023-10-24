@@ -1,4 +1,4 @@
-{% comment %} 
+
 {% include "store/base.html" %}
 
 {% load static %}
@@ -51,7 +51,7 @@
 
         <p> Track all of your orders here... </p>
 
-        <a class="btn btn-primary navbar-btn text-white" type="button"  href="{% url 'track-orders' %}"> My orders </a>
+        <a class="btn btn-primary navbar-btn text-white" type="button"  > My orders </a>
 
     </div>
 
@@ -70,7 +70,7 @@
         
         
 
-        <a class="btn btn-primary navbar-btn text-white" type="button"  href="{% url 'profile-management' %}"> Profile management </a>
+        <a class="btn btn-primary navbar-btn text-white" type="button"  "> Profile management </a>
 
     </div>
 
@@ -86,8 +86,7 @@
         <p> Enter in a shipping address </p>
 
 
-        <a class="btn btn-primary navbar-btn text-white" type="button"  href="{% url 'manage-shipping' %}"> Manage shipping </a>
-
+        <a class="btn btn-primary navbar-btn text-white" type="button" > Manage shipping </a> 
     </div>
 
     <br>
@@ -99,4 +98,3 @@
 
 
 
- {% endcomment %}
