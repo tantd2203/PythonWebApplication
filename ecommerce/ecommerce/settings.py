@@ -152,5 +152,5 @@ EMAIL_PORT = '587'
 EMAIL_USE_TLS = 'True'
 
 EMAIL_HOST_USER = 'tantdps12745@fpt.edu.vn'
-EMAIL_HOST_PASSWORD = 'ebwpvlxvrspodepd' # - Enter your app password 
+EMAIL_HOST_PASSWORD = 'ebwpvlxvrspodepd' # - Enter your app password  
 

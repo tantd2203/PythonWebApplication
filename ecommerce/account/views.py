@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from .forms import CreateUserForm,LoginForm
+from .forms import CreateUserForm,LoginForm,UpdateUserForm
 
 
 from django.contrib.sites.shortcuts import get_current_site
@@ -22,13 +22,17 @@ from django.utils.encoding import force_bytes,force_str
 
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
+from django.contrib.auth.decorators import login_required
+
+from django.contrib import  messages
+
+
 
 
 
 
 def register(request):
     form = CreateUserForm()  # Use CreateUserForm instead of CreateUseForm
-
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
@@ -123,14 +127,63 @@ def my_login(request):
 
                 auth.login(request, user)
 
-                return redirect ("dashbroad")
+                return redirect ("dashboard")
+            
+        #  else :
+                
+        #     messages.error(request,'Password and Username Invaild')
+
+
     
     context =  {'form' : form}
 
     return render (request, 'account/my-login.html',context=context)
 
 
-# 
+# logout
+def user_logout(request):
 
+    auth.logout(request)
+
+    return redirect("store")
+    
+
+@login_required(login_url='my-login')
 def dashboard (request) :
+
     return render (request, 'account/dashboard.html')
+
+
+
+@login_required(login_url='my-login')
+def profile_management(request):    
+
+    # Updating our user's username and email
+
+    user_form = UpdateUserForm(instance=request.user)
+
+    if request.method == 'POST':
+
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+
+        if user_form.is_valid():
+
+            user_form.save()
+
+            messages.info(request, "Update success!")
+
+            return redirect('dashboard')
+
+   
+
+    context = {'user_form':user_form}
+
+    return render(request, 'account/profile-management.html', context=context)
+
+
+
+
+@login_required(login_url='my-login')
+def delete_account (request) :
+
+    return render (request, 'account/delete-account.html')
