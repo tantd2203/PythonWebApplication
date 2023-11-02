@@ -39,14 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'store', # Django
+
     'cart',
     # huh
     'account',
-    #   thu vien
+    # thu vien
     'mathfilters',
-
-    # 
+    #
     'crispy_forms',
+
+    "payment",
 ]
 
 
