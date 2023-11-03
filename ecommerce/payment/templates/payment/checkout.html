@@ -27,7 +27,7 @@
 
         <div class="container bg-white shadow-md p-5" style="width:500px; border-radius:20px;">
 
-            <form id="form">
+            <form id="form" onsubmit="event.preventDefault();">
 
                 <div>
 
@@ -53,7 +53,7 @@
 
                     <div class="form-field">
 
-                        <input class="form-control validate" id="email" type="email" placeholder="Email address*" autocomplete="off" value="{{shipping.email}}"" required>
+                        <input class="form-control validate" id="email" type="email" placeholder="Email address*" autocomplete="off" value="{{shipping.email}}" required>
 
                     </div>
 
@@ -63,36 +63,32 @@
                     
                     <div class="form-field">
 
-                        <input class="form-control validate" id="address" type="text" placeholder="Address *" autocomplete="off" value="{{shipping.address}}"" required>
-
-                    </div>
-
-                    <br>
-
-                    <div class="form-field">
-
-                        <input class="form-control validate" id="city" type="text" placeholder="City*" autocomplete="off" value="{{shipping.city}}"" required>
+                        <input class="form-control validate" id="address" type="text" placeholder="Address 1*" autocomplete="off" value="{{shipping.address}}" required>
 
                     </div>
 
 
                     <br>
 
-                    <br>
 
-            
-                </div>
+         
 
-                <br>
-
-
-
-               <button id="complete-order" type="submit" class="btn btn-primary navbar-btn text-white"> &nbsp; Complete order </button>
                
 
+
+                    <div class="form-field">
+
+                        <input class="form-control validate" id="city" type="text" placeholder="City*" autocomplete="off" value="{{shipping.city}}" required>
+
+                    </div>
                 <br>
 
 
+
+              <button id="complete-order" class="btn btn-primary navbar-btn text-white"> &nbsp; Complete order </button>
+            
+
+        
 
 
             </form>
@@ -114,7 +110,306 @@
 
     <script>
 
+    {% comment %} // Total price
 
+    var total_price = '{{cart.get_total}}';
+
+
+
+    // PayPal Script
+
+    const paypalButtonsComponent = paypal.Buttons({
+        // optional styling for buttons
+        // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
+        style: {
+          color: "blue",
+          shape: "pill",
+          layout: "vertical",
+        },
+
+        onInit: function(data, actions) {
+
+            actions.disable();
+
+
+            // Complete order - NO SHIPPING
+            
+            document.querySelectorAll('.validate').forEach(item => {
+                item.addEventListener('keyup', event => {
+
+                    //  The required fields are filled out
+
+                    var order_verified = 'Yes';
+
+                    function checkInputs(){
+
+                        $(':input[required]').each(function(){
+
+                            if($(this).val() == ''){
+
+
+                                // The required fields are empty
+
+                                return order_verified = 'No';
+
+
+                            }
+
+
+
+                        });
+
+
+
+                        return order_verified;
+
+
+                    }
+
+                    
+                    var isOrderVerified = checkInputs()
+
+
+                    if(isOrderVerified === 'Yes')
+                    {
+
+                        actions.enable();
+
+
+
+                    }
+
+                    else
+                    {
+
+
+                        actions.disable();
+
+
+                    }
+
+
+
+
+                });
+
+
+
+
+
+            });
+
+
+             // Complete order - WITH SHIPPING
+
+
+             //  The required fields are filled out
+            
+             var order_verified = 'Yes';
+
+             function checkInputs(){
+
+                 $(':input[required]').each(function(){
+
+                     if($(this).val() == ''){
+
+
+                         // The required fields are empty
+
+                        return order_verified = 'No';
+
+
+                    }
+
+
+
+                });
+
+
+
+                return order_verified;
+
+
+             }
+
+             
+             var isOrderVerified = checkInputs()
+
+
+             if(isOrderVerified === 'Yes')
+             {
+
+                actions.enable();
+
+
+
+             }
+
+             else
+             {
+
+
+                actions.disable();
+
+
+             }
+
+                 
+
+
+        },
+
+
+
+        // set up the transaction
+        createOrder: (data, actions) => {
+            // pass in any options from the v2 orders create call:
+            // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
+            const createOrderPayload = {
+                purchase_units: [
+                    {
+                        amount: {
+                            value: total_price
+                        }
+                    }
+                ]
+            };
+
+            return actions.order.create(createOrderPayload);
+        },
+
+
+
+
+        // finalize the transaction
+        onApprove: (data, actions) => {
+            const captureOrderHandler = (details) => {
+
+                const payerName = details.payer.name.given_name;
+                
+                console.log('Transaction completed');
+
+
+                // Ajax functionality
+
+                $.ajax({
+
+                    type: 'POST',
+                    url: '{% url "complete-order" %}',
+                    data: {
+        
+                        name: $('#name').val(),
+                        email: $('#email').val(),
+        
+                        address1: $('#address1').val(),
+                        address2: $('#address2').val(),
+                        city: $('#city').val(),
+                        
+                        state: $('#state').val(),
+                        zipcode: $('#zipcode').val(),
+        
+        
+                        csrfmiddlewaretoken: "{{csrf_token}}",
+                        action: 'post'
+        
+                    },
+        
+                    success: function(json){
+        
+                        //console.log(json)
+        
+                        window.location.replace("{% url 'payment-success' %}");
+        
+        
+                    },
+        
+                    error: function(xhr, errmsg, err){
+        
+                        window.location.replace("{% url 'payment-failed' %}");
+        
+                    }
+        
+                });
+
+
+            };
+
+            return actions.order.capture().then(captureOrderHandler);
+        },
+
+
+
+        // handle unrecoverable errors
+        onError: (err) => {
+            console.error('An error prevented the buyer from checking out with PayPal');
+        }
+    });
+
+
+    paypalButtonsComponent
+        .render("#paypal-button-container")
+        .catch((err) => {
+            console.error('PayPal Buttons failed to render');
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+ {% endcomment %}
+
+    // Complete checkout
+    
+  
+    $(document).on('submit',  function(e){
+
+        e.preventDefault();
+
+        $.ajax({
+
+            type: 'POST',
+            url: '{% url "complete-order" %}',
+            data: {
+
+                name: $('#name').val(),
+                email: $('#email').val(),
+
+                address: $('#address').val(),
+            
+                city: $('#city').val(),
+                
+                csrfmiddlewaretoken: "{{csrf_token}}",
+                action: 'post'
+
+            },
+
+            success: function(json){
+
+                //console.log(json)
+
+                window.location.replace("{% url 'payment-success' %}");
+
+
+            },
+
+            error: function(xhr, errmsg, err){
+
+                window.location.replace("{% url 'payment-failed' %}");
+
+            }
+
+        });
+
+
+    })
+    
     
 
 

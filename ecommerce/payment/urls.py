@@ -9,7 +9,9 @@ urlpatterns = [
 
     path('payment-failed', views.payment_failed, name= 'payment-failed'),
 
-    path("checkout" ,views.checkout , name= 'checkout')
+    path("checkout" ,views.checkout , name= 'checkout'),
+
+    path("complete-order",views.complete_order,name='complete-order')
 
 
     
