@@ -8,10 +8,10 @@ from django.forms.widgets import PasswordInput , TextInput
 # Registration form
 
 class CreateUserForm(UserCreationForm):
-
+    
     class Meta:
 
-        model = User
+        model  = User
         fields = ['username', 'email', 'password1', 'password2']
 
     
@@ -42,15 +42,14 @@ class CreateUserForm(UserCreationForm):
 
 class LoginForm(AuthenticationForm) :
      username =  forms.CharField(widget=TextInput())
-     password = forms.CharField(widget=PasswordInput())
+     password =  forms.CharField(widget=PasswordInput())
 
 
 
 class UpdateUserForm(forms.ModelForm):
 
     password = None
-
-
+    
     class Meta:
 
         model = User

@@ -34,7 +34,7 @@ from django.contrib import  messages
 
 
 def register(request):
-    form = CreateUserForm()  # Use CreateUserForm instead of CreateUseForm
+    form = CreateUserForm() 
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
@@ -61,6 +61,9 @@ def register(request):
 
     context = {'form': form}
     return render(request, 'account/registration/register.html', context=context)
+
+
+
 
 
 
@@ -130,16 +133,16 @@ def my_login(request):
                 auth.login(request, user)
 
                 return redirect ("dashboard")
-            
-        #  else :
-                
-        #     messages.error(request,'Password and Username Invaild')
-
-
     
     context =  {'form' : form}
 
     return render (request, 'account/my-login.html',context=context)
+
+
+
+
+
+
 
 
 # logout
@@ -161,8 +164,7 @@ def user_logout(request):
     except KeyError:
 
         pass
-
-
+    
     messages.success(request, "Logout success")
 
     return redirect("store")

@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-#  Database Mặc định 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -156,3 +156,5 @@ EMAIL_USE_TLS = 'True'
 EMAIL_HOST_USER = 'tantdps12745@fpt.edu.vn'
 EMAIL_HOST_PASSWORD = 'ebwpvlxvrspodepd' # - Enter your app password  
 
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popus'

@@ -71,9 +71,9 @@
                     <br>
 
 
-         
 
-               
+
+                    <br>
 
 
                     <div class="form-field">
@@ -81,14 +81,34 @@
                         <input class="form-control validate" id="city" type="text" placeholder="City*" autocomplete="off" value="{{shipping.city}}" required>
 
                     </div>
+
+
+                    <br>
+
+
+                  
+
+
+                    <br>
+
+            
+                </div>
+
                 <br>
 
 
 
-              <button id="complete-order" class="btn btn-primary navbar-btn text-white"> &nbsp; Complete order </button>
-            
+               <!-- <button id="complete-order" class="btn btn-primary navbar-btn text-white"> &nbsp; Complete order </button>
+               -->
 
-        
+                <br>
+
+
+                <div id="paypal-button-container"></div>
+
+
+                <script src="https://www.paypal.com/sdk/js?client-id=AZ4Gb2M-Y6V8OTjt6LeWphNZURMkbdEoRv8Fc0L24CnmtTmTuiveI_VXXkC6SW6S215YQFloi0hvCbW-&currency=USD&intent=capture&enable-funding=venmo" data-sdk-integration-source="integrationbuilder"></script>
+
 
 
             </form>
@@ -110,7 +130,7 @@
 
     <script>
 
-    {% comment %} // Total price
+    // Total price
 
     var total_price = '{{cart.get_total}}';
 
@@ -301,14 +321,10 @@
                         name: $('#name').val(),
                         email: $('#email').val(),
         
-                        address1: $('#address1').val(),
-                        address2: $('#address2').val(),
+                       
+                        address: $('#address').val(),
                         city: $('#city').val(),
-                        
-                        state: $('#state').val(),
-                        zipcode: $('#zipcode').val(),
-        
-        
+                    
                         csrfmiddlewaretoken: "{{csrf_token}}",
                         action: 'post'
         
@@ -363,11 +379,11 @@
 
 
 
- {% endcomment %}
+
 
     // Complete checkout
     
-  
+    /*
     $(document).on('submit',  function(e){
 
         e.preventDefault();
@@ -381,10 +397,14 @@
                 name: $('#name').val(),
                 email: $('#email').val(),
 
-                address: $('#address').val(),
-            
+                address1: $('#address1').val(),
+                address2: $('#address2').val(),
                 city: $('#city').val(),
                 
+                state: $('#state').val(),
+                zipcode: $('#zipcode').val(),
+
+
                 csrfmiddlewaretoken: "{{csrf_token}}",
                 action: 'post'
 
@@ -408,7 +428,7 @@
         });
 
 
-    })
+    })*/
     
     
 
