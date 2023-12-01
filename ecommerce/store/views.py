@@ -4,6 +4,7 @@ from . models import Category , Product
 
 from django.shortcuts import get_object_or_404
 
+from django.db.models import Q
 # Create your views here.
 
 
@@ -41,4 +42,18 @@ def product_info(request, product_slug):
   context = {'product' : product}
 
   return render(request, 'store/product-info.html',context)
+
+
+def search_products(request):
+    query = request.GET.get('q')
+    if query:
+        # Search for products that contain the query in their title or description
+        products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+        context = {'query': query, 'products': products}
+        return render(request, 'store/search-results.html', context)
+    else:
+        # If no query is provided, display all products
+        all_products = Product.objects.all()
+        context = {'my_products': all_products}
+        return render(request, 'store/store.html', context)
 

@@ -41,6 +41,16 @@
 
     
     </section>
+
+    <!-- Search form section -->
+    <section class="py-4 text-center container">
+      <form method="GET" action="{% url 'search_products' %}">
+          <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Search for products..." name="q">
+              <button class="btn btn-outline-secondary" type="submit">Search</button>
+          </div>
+      </form>
+  </section>
    <!-- All products section -->
       
    <div class="album py-5 bg-light">
@@ -57,7 +67,7 @@
 
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
 
-        {% comment %} product item  {% endcomment %}
+
         {% for  product  in  my_products %}
 
           <div class="col">

@@ -38,6 +38,7 @@ class Cart():
 
 
         self.session.modified = True
+        
     def delete(self, product):
 
         product_id = str(product)
