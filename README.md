@@ -68,7 +68,7 @@ Ecommerce With Pyhon
            'NAME': BASE_DIR / "db.sqlite3",
        }
    }
-
+  ```
 Example for PostgreSQL:
    ```python
     DATABASES = {
@@ -80,7 +80,8 @@ Example for PostgreSQL:
             'HOST': 'localhost',
             'PORT': '5432',
         }
-    }
+    }  
+    ```
 
 ### Static Files and Media Configuration
 1 Open settings.py in the your_project directory.
@@ -89,8 +90,8 @@ Example for PostgreSQL:
     ```python
     STATIC_URL = '/static/'
     MEDIA_URL = '/media/'
-
+    ```
 ###Usage
-    ```bash
+    ``` bash
   python manage.py runserver
     ```
