@@ -93,10 +93,27 @@
           
           </div>
           {% endfor %}
-
-        
-
       </div>
+
+      <div class="pagination mt-4">
+        <span class="step-links">
+            {% if my_products.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ my_products.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ my_products.number }} of {{ my_products.paginator.num_pages }}.
+            </span>
+
+            {% if my_products.has_next %}
+                <a href="?page={{ my_products.next_page_number }}">next</a>
+                <a href="?page={{ my_products.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+</div>
     </div>
   </div>
 {% endblock %}

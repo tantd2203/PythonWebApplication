@@ -3,18 +3,32 @@ from django.shortcuts import render
 from . models import Category , Product
 
 from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.db.models import Q
 # Create your views here.
 
 
-def store(request) :
-  
-  all_products = Product.objects.all()
+def store(request):
+    all_products = Product.objects.all()
 
-  context ={'my_products': all_products}
+    # Number of products per page
+    items_per_page = 1
 
-  return render(request,'store/store.html',context)
+    paginator = Paginator(all_products, items_per_page)
+    page = request.GET.get('page')
+
+    try:
+        my_products = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        my_products = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g., 9999), deliver last page of results.
+        my_products = paginator.page(paginator.num_pages)
+
+    context = {'my_products': my_products}
+    return render(request, 'store/store.html', context)
 
 def categories(request):
 
