@@ -69,29 +69,4 @@ Ecommerce With Pyhon
        }
    }
   ```
-Example for PostgreSQL:
-   ```python
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'your_database_name',
-            'USER': 'your_database_user',
-            'PASSWORD': 'your_database_password',
-            'HOST': 'localhost',
-            'PORT': '5432',
-        }
-    }  
-    ```
-
-### Static Files and Media Configuration
-1 Open settings.py in the your_project directory.
-2 Configure the STATIC_URL and MEDIA_URL settings:
-
-    ```python
-    STATIC_URL = '/static/'
-    MEDIA_URL = '/media/'
-    ```
-###Usage
-    ``` bash
-  python manage.py runserver
-    ```
+   
