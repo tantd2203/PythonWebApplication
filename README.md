@@ -18,7 +18,9 @@ Ecommerce With Pyhon
 
 2. Navigate to the project directory:
 
+      ```bash
     cd ecommerce
+    ```
 
 
 3. Create a virtual environment:
