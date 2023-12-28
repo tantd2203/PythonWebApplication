@@ -58,9 +58,9 @@ def search_products(request):
     query = request.GET.get('q')
     if query:
 
-        products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
-        context = {'query': query, 'products': products}
-        return render(request, 'store/search-results.html', context)
+       products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+       context = {'query': query, 'products': products}
+       return render(request, 'store/search-results.html', context)
     else:
         
         all_products = Product.objects.all()
