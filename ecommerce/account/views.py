@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-
+from django.shortcuts import render, get_object_or_404
 from .forms import CreateUserForm,LoginForm,UpdateUserForm
 
 from  payment.forms import ShippingForm
-from  payment.models import OrderItem, ShippingAddress
+from  payment.models import OrderItem, ShippingAddress,Order
 
 from django.contrib.sites.shortcuts import get_current_site
 
@@ -27,8 +27,6 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.decorators import login_required
 
 from django.contrib import  messages
-
-
 
 
 
@@ -121,7 +119,6 @@ def my_login(request):
     form = LoginForm()
 
     if request.method == 'POST' : 
-         
          form =  LoginForm(request, data = request.POST)
          if form.is_valid():
             username= request.POST.get('username')
@@ -133,6 +130,9 @@ def my_login(request):
                 auth.login(request, user)
 
                 return redirect ("dashboard")
+            else :
+                
+                return redirect ("my-login")
     
     context =  {'form' : form}
 
@@ -268,14 +268,22 @@ def manage_shipping(request):
 def track_orders(request):
 
     try:
+        orders = Order.objects.filter(user=request.user)
+        order_items_list = []  
+        for order in orders:
+            order_items = OrderItem.objects.filter(order=order)
+            
+            order_items_list.append({
+                'order': order,
+                'order_items': order_items,
+            })
 
-        orders = OrderItem.objects.filter(user=request.user)
-
-        context = {'orders':orders}
+        context = {
+            'order_items_list': order_items_list,
+        }
 
         return render(request, 'account/track-orders.html', context=context)
 
-    except:
-
+    except Order.DoesNotExist:  
         return render(request, 'account/track-orders.html')
 

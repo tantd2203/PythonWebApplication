@@ -2,8 +2,6 @@ from django.db import models
 # r
 from django.urls import reverse
 
-# Create your models here.
-
 class Category(models.Model):
     
     name = models.CharField(max_length=250,db_index=True)
@@ -14,7 +12,6 @@ class Category(models.Model):
 
         verbose_name_plural ='categories'
     
-    #Category 1, Category 2
     def __str__(self):
         return  self.name
     
@@ -23,9 +20,6 @@ class Category(models.Model):
         return reverse('list-category', args=[self.slug])
 
 class Product(models.Model):
-
-    #PK
-
     category = models.ForeignKey(Category,related_name='product', on_delete=models.CASCADE , null=True)
 
     title = models.CharField(max_length=250)
@@ -35,7 +29,7 @@ class Product(models.Model):
     description = models.TextField(blank=True)
 
     slug = models.SlugField(max_length=250)
-
+    
     price =  models.DecimalField(max_digits=4, decimal_places=2)
 
     image = models.ImageField(upload_to='images/') 

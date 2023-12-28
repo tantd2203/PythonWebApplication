@@ -5,8 +5,6 @@ from .models import ShippingAddress,Order,OrderItem
 
 from cart.cart import Cart
 
-# Create your views here.
-
 
 def payment_success(request):
 
@@ -22,12 +20,10 @@ def payment_failed(request):
 
 def checkout(request):
 
-    # Users with accounts fill the form
 
     if request.user.is_authenticated:
 
         try:
-            # Authenticated user WITH shipping  information
 
             shipping_address = ShippingAddress.objects.get(user = request.user.id)
 
@@ -72,8 +68,6 @@ def complete_order(request):
 
         total_cost = cart.get_total()
 
-
-         # 1) Create order -> Account users WITH + WITHOUT shipping information
 
         if request.user.is_authenticated:
 
@@ -127,10 +121,6 @@ def complete_order(request):
 
 
 def payment_success(request):
-
-
-    # Clear shopping cart
-
 
     for key in list(request.session.keys()):
 

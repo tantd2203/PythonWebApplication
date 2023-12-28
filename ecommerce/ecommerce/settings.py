@@ -91,15 +91,25 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
     }
 }
-
-
+# DATABASES = {  
+#     'default': {  
+#         'ENGINE': 'django.db.backends.mysql',  
+#         'NAME': 'python',  
+#         'USER': 'root',  
+#         'PASSWORD': '123456',  
+#         'HOST': '127.0.0.1',  
+#         'PORT': '3306',  
+#         'OPTIONS': {  
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"  
+#         }  
+#     }  
+# }
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -154,7 +164,6 @@ EMAIL_PORT = '587'
 EMAIL_USE_TLS = 'True'
 
 EMAIL_HOST_USER = 'tantdps12745@fpt.edu.vn'
-EMAIL_HOST_PASSWORD = 'ebwpvlxvrspodepd' # - Enter your app password  
+EMAIL_HOST_PASSWORD = 'ebwpvlxvrspodepd' 
 
 
-SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popus'

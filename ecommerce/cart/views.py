@@ -24,7 +24,6 @@ def cart_add(request):
 
         cart.add(product=product, product_qty=product_quantity)
 
-
         cart_quantity = cart.__len__()
 
 

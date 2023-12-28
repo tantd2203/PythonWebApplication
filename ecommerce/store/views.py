@@ -6,15 +6,11 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.db.models import Q
-# Create your views here.
 
 
 def store(request):
     all_products = Product.objects.all()
-
-    # Number of products per page
     items_per_page = 1
-
     paginator = Paginator(all_products, items_per_page)
     page = request.GET.get('page')
 
@@ -61,12 +57,12 @@ def product_info(request, product_slug):
 def search_products(request):
     query = request.GET.get('q')
     if query:
-        # Search for products that contain the query in their title or description
+
         products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
         context = {'query': query, 'products': products}
         return render(request, 'store/search-results.html', context)
     else:
-        # If no query is provided, display all products
+        
         all_products = Product.objects.all()
         context = {'my_products': all_products}
         return render(request, 'store/store.html', context)

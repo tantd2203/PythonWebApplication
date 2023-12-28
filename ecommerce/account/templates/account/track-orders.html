@@ -39,29 +39,20 @@
     <br>
 
     <div class="container bg-white shadow-md p-5 form-layout ">
+        {% for order_items in order_items_list %}
+        <h3>Order #{{ order_items.order.id }}</h3>
+        <p>Date Ordered: {{ order_items.order.date_ordered }}</p>
+        <p>Amount Paid: ${{ order_items.order.amount_paid }}</p>
+        
+        <h4>Order Items</h4>
+        <ul>
+          {% for order_item in order_items.order_items %}
+            <li>{{ order_item.product.title }} - Quantity: {{ order_item.quantity }} - Price: ${{ order_item.price }} </li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
 
-        {% for order in orders %}
-
-            <strong> <i class="fa fa-list-alt" aria-hidden="true"></i> &nbsp;  Order ID # {{order.id}} </strong>
-            
-            <br> <br>
-
-            {{order.product}}
-
-            <br> <br>
-
-            Quantity x {{order.quantity}}
-
-            <br> <br>
-
-            $ {{order.price}}
-
-            <br> <br>
-
-            <hr>
-
-
-        {% endfor %}
+        
 
     </div>
 

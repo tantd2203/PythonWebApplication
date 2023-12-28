@@ -26,12 +26,11 @@ class CreateUserForm(UserCreationForm):
     def clean_email(self):
 
         email = self.cleaned_data.get("email")
-        # bug
+        
         if User.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
 
             raise forms.ValidationError('This email is invalid')
-
-        # len function updated ###
+        
 
         if len(email) >= 350:
 
@@ -47,7 +46,6 @@ class LoginForm(AuthenticationForm) :
 
 
 class UpdateUserForm(forms.ModelForm):
-
     password = None
     
     class Meta:
@@ -60,5 +58,4 @@ class UpdateUserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UpdateUserForm, self).__init__(*args, **kwargs)
-
         self.fields['email'].required = True
