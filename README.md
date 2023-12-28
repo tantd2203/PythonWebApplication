@@ -4,11 +4,6 @@ Ecommerce With Pyhon
 ## Table of Contents
 - [Installation](#installation)
 - [Configuration](#configuration)
-- [Usage](#usage)
-- [Folder Structure](#folder-structure)
-- [Dependencies](#dependencies)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
@@ -68,5 +63,8 @@ Ecommerce With Pyhon
            'NAME': BASE_DIR / "db.sqlite3",
        }
    }
-  ```
-   
+
+### Run
+```bash
+   python manage.py runserver
+
