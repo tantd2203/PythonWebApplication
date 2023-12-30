@@ -17,10 +17,8 @@ def store(request):
     try:
         my_products = paginator.page(page)
     except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
         my_products = paginator.page(1)
     except EmptyPage:
-        # If page is out of range (e.g., 9999), deliver last page of results.
         my_products = paginator.page(paginator.num_pages)
 
     context = {'my_products': my_products}
@@ -58,7 +56,7 @@ def search_products(request):
     query = request.GET.get('q')
     if query:
 
-       products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+       products = Product.objects.filter(Q(title__contains=query) | Q(description__contains=query))
        context = {'query': query, 'products': products}
        return render(request, 'store/search-results.html', context)
     else:

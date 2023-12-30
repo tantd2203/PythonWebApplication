@@ -1,6 +1,9 @@
+from readline import get_current_history_length
 from django.http import JsonResponse
 from django.shortcuts import render
 
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
 from .models import ShippingAddress,Order,OrderItem
 
 from cart.cart import Cart
@@ -35,8 +38,6 @@ def checkout(request):
             # Authenticated users with NO shipping information
 
                 return render (request, 'payment/checkout.html')
-        
-
 
     else:
 
@@ -57,9 +58,6 @@ def complete_order(request):
         shipping_address = (address +"\n" +
         
         city )
-
-
-
          # Shopping cart information 
 
         cart = Cart(request)
@@ -74,8 +72,6 @@ def complete_order(request):
             order = Order.objects.create(full_name=name, email=email, shipping_address=shipping_address,
             
             amount_paid=total_cost, user=request.user)
-
-
             order_id = order.pk
 
             for item in cart:
@@ -83,6 +79,35 @@ def complete_order(request):
                 OrderItem.objects.create(order_id=order_id, product=item['product'], quantity=item['qty'],
                 
                 price=item['price'], user=request.user)
+            
+            # mail success payment
+            order_mail = Order.objects.filter(id=order_id)
+            order_items_list = []  
+            for order in order_mail:
+                order_items = OrderItem.objects.filter(order=order)
+                
+                order_items_list.append({
+                    'order': order,
+                    'order_items': order_items,
+                })
+
+            context = {
+                'order_items_list': order_items_list,
+            }
+            # render gmail
+            # Email verification setup (template)
+            current_site = get_current_history_length(request)
+            subject = 'Payment success   email'
+            message = render_to_string('account/registration/email-verification.html', {
+                #  ??
+
+    
+            })
+
+            #  Unable to connect 
+            request.user.email_user(message=message,subject= subject)
+
+
                 
     #  2) Create order -> Guest users without an account
 
@@ -102,9 +127,8 @@ def complete_order(request):
                 
                 price=item['price'])
 
-
-
         order_success = True
+
 
         response = JsonResponse({'success':order_success})
 
@@ -128,13 +152,7 @@ def payment_success(request):
 
             del request.session[key]
 
-
-
     return render(request, 'payment/payment-success.html')
-
-
-
-
 
 
 def payment_failed(request):
