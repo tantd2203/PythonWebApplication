@@ -10,7 +10,7 @@ from django.db.models import Q
 
 def store(request):
     all_products = Product.objects.all()
-    items_per_page = 1
+    items_per_page = 3
     paginator = Paginator(all_products, items_per_page)
     page = request.GET.get('page')
 
@@ -65,3 +65,13 @@ def search_products(request):
         context = {'my_products': all_products}
         return render(request, 'store/store.html', context)
 
+def sort_product(request):
+   queryset = Product.objects.all()
+   sort_by = request.GET.get('sort_by')
+   if sort_by == 'title' :
+      queryset =queryset.order_by('title')
+   elif sort_by == 'price':
+      queryset =queryset.order_by('price')
+
+   return render(request, 'store/product-sort.html',{'products':queryset})
+   

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success Email</title>
+</head>
+<body>
+    <h2>Payment Success!</h2>
+
+    <p>Dear {{ request.user.username }},</p>
+
+    <p>Your payment was successful. Thank you for your order. Below is the summary of your purchase:</p>
+
+    {% for order_info in order_items_list %}
+        <h3>Order #{{ order_info.order.id }}</h3>
+        <ul>
+            {% for order_item in order_info.order_items %}
+                <li>{{ order_item.product.title }} - Quantity: {{ order_item.quantity }} - Price: ${{ order_item.price }}</li>
+            {% endfor %}
+        </ul>
+        <p>Total Amount: ${{ order_info.order.total_amount }}</p>
+    {% endfor %}
+
+    <p>Thank you for shopping with us!</p>
+
+    <p>Best Regards,<br>
+    Your Store Team</p>
+</body>
+</html>
