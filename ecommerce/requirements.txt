@@ -3,3 +3,6 @@ django-crispy-forms==1.14.0
 django-mathfilters==1.0.0
 django-utils-six==2.0
 Pillow==10.1.0
+# django-admin-charts==1.3.0
+# django-light
+
