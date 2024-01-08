@@ -32,8 +32,9 @@ urlpatterns = [
     path('account/' ,include('account.urls')),
     
     # payment 
-    path('payment/' ,include('payment.urls'))
+    path('payment/' ,include('payment.urls')),
     
+    path('admin_tools_stats/', include('admin_tools_stats.urls')),
 ]
 
 

@@ -10,7 +10,7 @@ from django.db.models import Q
 
 def store(request):
     all_products = Product.objects.all()
-    items_per_page = 3
+    items_per_page = 2
     paginator = Paginator(all_products, items_per_page)
     page = request.GET.get('page')
 

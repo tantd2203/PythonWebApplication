@@ -1,3 +1,4 @@
+from datetime import timezone
 from django.db import models
 
 from django.contrib.auth.models import User
@@ -42,9 +43,7 @@ class Order(models.Model):
     shipping_address = models.TextField(max_length=10000)
 
 
-    amount_paid = models.DecimalField(max_digits=8, decimal_places=2)
-
-
+    amount_paid =  models.IntegerField(   null=True, blank=True)
 
 
     date_ordered = models.DateTimeField(auto_now_add=True)
