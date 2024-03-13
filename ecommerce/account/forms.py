@@ -14,7 +14,7 @@ class CreateUserForm(UserCreationForm):
         model  = User
         fields = ['username', 'email', 'password1', 'password2']
 
-    
+    # unique email and email not blank 
     def __init__(self, *args, **kwargs):
         super(CreateUserForm, self).__init__(*args, **kwargs)
 
@@ -54,6 +54,7 @@ class UpdateUserForm(forms.ModelForm):
 
         fields = ['username', 'email']
         exclude = ['password1', 'password1']
+        
     
 
     def __init__(self, *args, **kwargs):

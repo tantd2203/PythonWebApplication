@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-     'admin_tools_stats',  # this must be BEFORE 'admin_tools' and 'django.contrib.admin'
+    'admin_tools_stats',  # this must be BEFORE 'admin_tools' and 'django.contrib.admin'
     'django_nvd3',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -79,6 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # cofig
                 'store.views.categories',
                 'cart.context_processors.cart',
             ],

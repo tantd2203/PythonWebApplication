@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.shortcuts import render, get_object_or_404
 from .forms import CreateUserForm,LoginForm,UpdateUserForm
 
 from  payment.forms import ShippingForm
@@ -51,8 +50,6 @@ def register(request):
                 
                 'token': user_tokenizer_generate.make_token(user),
             })
-
-            #  Unable to connect 
             user.email_user(message=message,subject= subject)
 
             return redirect('email-verification-sent')
@@ -60,12 +57,6 @@ def register(request):
     context = {'form': form}
     return render(request, 'account/registration/register.html', context=context)
 
-
-
-
-
-
-# # Create your views here.
 
 # def email_verification(request, uidb64, token):
 
@@ -78,8 +69,7 @@ def email_verification(request, uidb64, token):
 
     user = User.objects.get(pk=unique_id)
     
-    # Success
-
+    # Success check
     if user and user_tokenizer_generate.check_token(user, token):
 
         user.is_active = True
@@ -87,8 +77,7 @@ def email_verification(request, uidb64, token):
         user.save()
 
         return redirect('email-verification-success')
-
-
+    
     # Failed 
 
     else:
@@ -124,7 +113,7 @@ def my_login(request):
             username= request.POST.get('username')
             password = request.POST.get('password')
             user = authenticate(request,username=username,password = password)
- 
+
             if user is not None: 
 
                 auth.login(request, user)
@@ -179,7 +168,6 @@ def dashboard (request) :
 
 @login_required(login_url='my-login')
 def profile_management(request):    
-
     # Updating our user's username and email
 
     user_form = UpdateUserForm(instance=request.user)
@@ -195,8 +183,6 @@ def profile_management(request):
             messages.info(request, "Update success!")
 
             return redirect('dashboard')
-
-   
 
     context = {'user_form':user_form}
 
@@ -223,7 +209,6 @@ def delete_account (request) :
 def manage_shipping(request):
 
     try:
-
         # Account user with shipment information
         shipping = ShippingAddress.objects.get(user=request.user.id)
 
@@ -253,7 +238,6 @@ def manage_shipping(request):
 
 
             shipping_user.save()
-
 
 
             return redirect('dashboard')

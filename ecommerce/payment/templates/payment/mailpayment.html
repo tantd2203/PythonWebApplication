@@ -5,7 +5,7 @@ Payment Success!
        Order #{{ order_info.order.id }}
       
             {% for order_item in order_info.order_items %}
-                <li>{{ order_item.product.title }} - Quantity: {{ order_item.quantity }} - Price: ${{ order_item.price }}</li>
+              {{ order_item.product.title }} - Quantity: {{ order_item.quantity }} - Price: ${{ order_item.price }}
             {% endfor %}
        
      Total Amount: ${{ order_info.order.amount_paid }}

@@ -10,7 +10,7 @@ from django.db.models import Q
 
 def store(request):
     all_products = Product.objects.all()
-    items_per_page = 2
+    items_per_page = 5
     paginator = Paginator(all_products, items_per_page)
     page = request.GET.get('page')
 
@@ -64,6 +64,8 @@ def search_products(request):
         all_products = Product.objects.all()
         context = {'my_products': all_products}
         return render(request, 'store/store.html', context)
+
+
 
 def sort_product(request):
    queryset = Product.objects.all()
